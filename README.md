@@ -81,8 +81,3 @@ npm run dev
 - By default, the server runs on **port 5000**.
 
 If you need to change the port, modify the `PORT` variable in your environment settings.
-
----
-
-### **Happy Coding! 🚀**
-
