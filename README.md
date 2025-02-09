@@ -69,7 +69,8 @@ config/serviceAccountKey.json
 
 ### 3️⃣ **Fetch Potential User Data**
 - **Endpoint:** `GET /api/fetch-potential-user-data`
-- **Explanation:** 
+- **Description:** Fetches a list of potential users from Firestore. No headers or body are needed.
+- **Explanation:** <br>
   `The Logic:`
   1. First Priority: Sort by ratings (highest first)
   2. Tiebreaker 1: If ratings are equal → sort by total rentals (most first)
@@ -96,8 +97,7 @@ config/serviceAccountKey.json
     -User C has 28 rentals → comes last automatically
 
   `No Complex Math Needed:`
-    -Firestore handles the sorting automatically once you specify the order. Think of it like sorting words alphabetically, but with numbers and dates instead of letters.
-- **Description:** Fetches a list of potential users from Firestore. No headers or body are needed.
+    - Firestore handles the sorting automatically once you specify the order. Think of it like sorting words alphabetically, but with numbers and dates instead of letters.
 - **Query Parameters (optional):**
   - `lastDocId` (string): The last document ID from the previous query (for pagination).
   - `pageSize` (number): The number of users to fetch per request.
