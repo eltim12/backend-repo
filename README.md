@@ -69,6 +69,34 @@ config/serviceAccountKey.json
 
 ### 3️⃣ **Fetch Potential User Data**
 - **Endpoint:** `GET /api/fetch-potential-user-data`
+- **Explanation:** 
+  `The Logic:`
+  1. First Priority: Sort by ratings (highest first)
+  2. Tiebreaker 1: If ratings are equal → sort by total rentals (most first)
+  3. Tiebreaker 2: If ratings AND rentals are equal → sort by recent activity (newest first)
+  
+  `The Firestore Query:`
+  ```javascript
+    usersRef
+      .orderBy("totalAverageWeightRatings", "desc")
+      .orderBy("numberOfRents", "desc")
+      .orderBy("recentlyActive", "desc")
+      .limit(10) // Adjust limit for pagination
+  ```
+  
+  `How Pagination Works:`
+    1. Get the last user's data from the current page
+    2. Use startAfter(lastUser.rating, lastUser.rents, lastUser.activity)
+    3. This tells Firestore: "Show me next users after these values"
+  
+  `Example with Your Data:`
+    - All users have 4.3 rating → we check rentals next
+    - User A & B have 30 rentals → we check activity last
+    - User A (Feb 7) is newer than B (Feb 4) → A comes first
+    -User C has 28 rentals → comes last automatically
+
+  `No Complex Math Needed:`
+    -Firestore handles the sorting automatically once you specify the order. Think of it like sorting words alphabetically, but with numbers and dates instead of letters.
 - **Description:** Fetches a list of potential users from Firestore. No headers or body are needed.
 - **Query Parameters (optional):**
   - `lastDocId` (string): The last document ID from the previous query (for pagination).
