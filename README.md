@@ -67,6 +67,32 @@ config/serviceAccountKey.json
   }
   ```
 
+### 3️⃣ **Fetch Potential User Data**
+- **Endpoint:** `GET /api/fetch-potential-user-data`
+- **Description:** Fetches a list of potential users from Firestore. No headers or body are needed.
+- **Query Parameters (optional):**
+  - `lastDocId` (string): The last document ID from the previous query (for pagination).
+  - `pageSize` (number): The number of users to fetch per request.
+- **Example Request:**
+  ```
+  GET /api/fetch-potential-user-data?pageSize=10&lastDocId=abc123
+  ```
+- **Response:**
+  ```json
+  [
+    {
+      "uid": "user123",
+      "email": "user@example.com",
+      "name": "John Doe"
+    },
+    {
+      "uid": "user456",
+      "email": "user2@example.com",
+      "name": "Jane Doe"
+    }
+  ]
+  ```
+
 ---
 
 ## Run the Project
