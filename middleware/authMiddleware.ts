@@ -9,23 +9,21 @@ export const authMiddleware = async (req: AuthenticatedRequest, res: Response, n
     return res.status(401).json({ error: "Unauthorized: No token provided" });
   }
 
-  const token = authHeader.split(" ")[1]; // Extract token from "Bearer <token>"
+  const token = authHeader.split(" ")[1];
 
   try {
-    // Verify Firebase token using Firebase Admin SDK
     const decodedToken = await admin.auth().verifyIdToken(token);
 
     if (!decodedToken || !decodedToken.uid) {
       return res.status(403).json({ error: "Forbidden: Invalid token" });
     }
 
-    // Attach user info to the request object
     req.user = {
       uid: decodedToken.uid,
       email: decodedToken.email || "",
     };
 
-    next(); // Proceed to the next middleware or route handler
+    next();
   } catch (error) {
     console.error("Error verifying Firebase token:", error);
     return res.status(403).json({ error: "Forbidden: Invalid or expired token" });
